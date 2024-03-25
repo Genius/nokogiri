@@ -18,6 +18,17 @@ on:
       - '*'
 
 jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/sparklemotion/nokogiri-test:mri-3.1
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - run: bundle install --local || bundle install
+      - run: bundle exec rake rubocop
+
   gumbo:
     needs: ["rubocop"]
     strategy:
@@ -285,3 +296,25 @@ jobs:
             bundle install --local || bundle install
             bundle exec rake compile -- --${{matrix.sys}}-system-libraries
             bundle exec rake test
+
+  memcheck:
+    strategy:
+      fail-fast: false
+      matrix:
+        sys: ["disable"]
+        ruby: ["3.1"]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/sparklemotion/nokogiri-test:mri-${{matrix.ruby}}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/cache@v2
+        if: matrix.sys == 'disable'
+        with:
+          path: ports
+          key: ports-ubuntu-${{hashFiles('dependencies.yml', 'patches/**/*.patch')}}
+      - run: bundle install --local || bundle install
+      - run: bundle exec rake compile -- --${{matrix.sys}}-system-libraries
+      - run: bundle exec rake test:memcheck
