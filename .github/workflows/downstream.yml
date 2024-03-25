@@ -27,9 +27,6 @@ jobs:
           - url: https://github.com/flavorjones/loofah
             name: loofah
             command: "bundle exec rake test"
-          - url: https://github.com/rails/rails-html-sanitizer
-            name: rails-html-sanitizer
-            command: "bundle exec rake test"
           - url: https://github.com/rgrove/sanitize
             name: sanitize
             command: "bundle exec rake test"
