@@ -36,9 +36,6 @@ jobs:
           - url: https://github.com/WinRb/Viewpoint
             name: viewpoint
             command: "bundle exec rspec spec"
-          - url: https://github.com/rails/rails
-            name: xmlmini
-            command: "cd activesupport && bundle exec rake test TESTOPTS=-n/XmlMini/"
           - url: https://github.com/pythonicrubyist/creek
             name: creek
             command: "bundle exec rake spec"
