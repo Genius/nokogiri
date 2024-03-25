@@ -725,7 +725,6 @@ rb_xml_reader_encoding(VALUE rb_reader)
     return constructor_encoding;
   } else {
       rb_iv_set(self, "@encoding", NOKOGIRI_STR_NEW2("UTF-8"));
-      c_document->encoding = xmlStrdup(BAD_CAST "UTF-8");
   }
 
   Data_Get_Struct(rb_reader, xmlTextReader, c_reader);
